@@ -1,7 +1,6 @@
 import random
 import math
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
 
 class AlgoritmoGenetico:
     def __init__(self):
@@ -14,31 +13,26 @@ class AlgoritmoGenetico:
         self.interval_min=-5
         self.interval_max=5
         self.melhores_individuos=[]
-        self.bestx=[]
-        self.besty=[]
-        self.bestf=[]
 
-    def avaliar_individuo(self, x, y):
-        return 20 + (x*x) + (y*y) - 10 * ((math.cos(2*math.pi*x)) + math.cos(2*math.pi*y))
+    def avaliar_individuo(self, x1, x2):
+        x1_value = x1
+        x2_value = x2
+        return 837.9658 - (x1_value + x2_value)
 
     def criar_populacao(self):
         for i in range (self.tam_populacao):
-            x = random.uniform(self.interval_min, self.interval_max)
-            y = random.uniform(self.interval_min, self.interval_max)
+            x = random.randint(self.interval_min, self.interval_max)
+            y = random.randint(self.interval_min, self.interval_max)
             fitness = self.avaliar_individuo(x, y)
             individuo=[x, y, fitness]
             self.populacao.append(individuo)
-
-        # ax = plt.axes(projection="3d")
-        # ax.plot3D(self.melhores_individuos[0])
-        # plt.show()
 
     def selecionar_pai(self):
         pos_cand1 = random.randint(0, 49)
         pos_cand2 = random.randint(0, 49)
 
         pos_pai = 0;
-        if (self.populacao[pos_cand1][2] < self.populacao[pos_cand2][2]):
+        if (self.populacao[pos_cand1][2] > self.populacao[pos_cand2][2]):
             pos_pai = pos_cand1
         else:
             pos_pai = pos_cand2
@@ -51,9 +45,9 @@ class AlgoritmoGenetico:
 
         #se for menor ou igual a 1 significa que terá mutação (1%)
         if (valorx <= self.mutacao):
-            filho[0] = random.uniform(self.interval_min, self.interval_max)
+            filho[0] = random.randint(self.interval_min, self.interval_max)
         if(valory <= self.mutacao):
-            filho[1] = random.uniform(self.interval_min, self.interval_max)
+            filho[1] = random.randint(self.interval_min, self.interval_max)
 
         return filho
 
@@ -102,19 +96,9 @@ class AlgoritmoGenetico:
         # melhor_individuo = self.populacao[len(self.populacao) - 1]
         # self.melhores_individuos.append(melhor_individuo)
 
-        # print("size", len(self.populacao))
-
-        # self.bestx.append(self.populacao[len(self.populacao) - 1][0])
-        # self.besty.append(self.populacao[len(self.populacao) - 1][1])
-        # self.bestf.append(self.populacao[len(self.populacao) - 1][2])
-        # # print('melhor', melhor_individuo)
-        # ax = plt.axes(projection="3d")
-        # ax.plot3D(self.bestx, self.besty, self.bestf, "green")
+        # fig, ax = plt.subplots()
+        # ax.plot(melhor_individuo[0], melhor_individuo[1], melhor_individuo[2])
         # plt.show()
-
-        self.bestx.append(self.populacao[len(self.populacao) - 1][0])
-        self.besty.append(self.populacao[len(self.populacao) - 1][1])
-        self.bestf.append(self.populacao[len(self.populacao) - 1][2])
 
         print("O melhor indivíduo: ")
         print("x = ", self.populacao[19][0])
@@ -133,26 +117,7 @@ class AlgoritmoGenetico:
             self.populacao = self.populacao + self.filhos
             self.realizar_descarte(self.populacao)
             self.verificar_melhor_individuo()
-            # self.melhores_individuos.append([self.populacao[19][0], self.populacao[19][1], self.populacao[19][2]])
-            # ax = plt.axes(projection="3d")
-            # ax.plot3D(self.melhores_individuos, "green")
-            # plt.show()
             contador_geracoes += 1
-
-        # x1 = list(map(lambda x:x[0], self.melhores_individuos.copy()))
-        # x2 = list(map(lambda x:x[1], self.melhores_individuos.copy()))
-        # fitness = list(map(lambda x:x[2], self.melhores_individuos.copy()))
-
-        # ax = plt.axes(projection="3d")
-        # ax.plot3D(x1, x2, fitness, "green")
-        # plt.show()
-        # self.bestx.append(self.populacao[len(self.populacao) - 1][0])
-        # self.besty.append(self.populacao[len(self.populacao) - 1][1])
-        # self.bestf.append(self.populacao[len(self.populacao) - 1][2])
-        # print('melhor', melhor_individuo)
-        ax = plt.axes(projection="3d")
-        ax.plot3D(self.bestx, self.besty, self.bestf, "green")
-        plt.show()
 
 ag = AlgoritmoGenetico()
 ag.iniciar_execucao()
