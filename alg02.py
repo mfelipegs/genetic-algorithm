@@ -109,6 +109,10 @@ class AlgoritmoGenetico:
 
         ax = plt.axes(projection="3d")
         ax.plot3D(self.melhor_individuo_x, self.melhor_individuo_y, self.melhor_individuo_z, "green")
+        ax.set_title("Algoritmo 02")
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Fitness")
         plt.show()
 
 ag = AlgoritmoGenetico()
