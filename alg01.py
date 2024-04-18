@@ -10,14 +10,14 @@ class AlgoritmoGenetico:
         self.num_filhos=36
         self.filhos=[]
         self.mutacao=4
-        self.interval_min=-5
-        self.interval_max=5
+        self.interval_min=-500
+        self.interval_max=500
         self.melhores_individuos=[]
 
     def avaliar_individuo(self, x1, x2):
-        x1_value = x1
-        x2_value = x2
-        return 837.9658 - (x1_value + x2_value)
+        valor_x1 = x1 * math.sin(math.sqrt(abs(x1)))
+        valor_x2 = x2 * math.sin(math.sqrt(abs(x2)))
+        return 837.9658 - (valor_x1 + valor_x2)
 
     def criar_populacao(self):
         for i in range (self.tam_populacao):
@@ -28,11 +28,11 @@ class AlgoritmoGenetico:
             self.populacao.append(individuo)
 
     def selecionar_pai(self):
-        pos_cand1 = random.randint(0, 49)
-        pos_cand2 = random.randint(0, 49)
+        pos_cand1 = random.randint(0, len(self.populacao) - 1)
+        pos_cand2 = random.randint(0, len(self.populacao) - 1)
 
         pos_pai = 0;
-        if (self.populacao[pos_cand1][2] > self.populacao[pos_cand2][2]):
+        if (self.populacao[pos_cand1][2] < self.populacao[pos_cand2][2]):
             pos_pai = pos_cand1
         else:
             pos_pai = pos_cand2
@@ -43,7 +43,7 @@ class AlgoritmoGenetico:
         valorx = random.randint(0, 100)
         valory = random.randint(0, 100)
 
-        #se for menor ou igual a 1 significa que terá mutação (1%)
+        # mutação (1%)
         if (valorx <= self.mutacao):
             filho[0] = random.randint(self.interval_min, self.interval_max)
         if(valory <= self.mutacao):
@@ -51,26 +51,18 @@ class AlgoritmoGenetico:
 
         return filho
 
-    # def realizar_descarte(self):
-    #     self.populacao = sorted(self.populacao, key=lambda x:x[3])
-    #     ind=1
-    #     while ind <= self.num_filhos:
-    #         del self.populacao[0]
-    #         ind += 1
-
     def realizar_descarte(self, individuos):
         individuos = sorted(individuos, key=lambda x:x[2], reverse=True)
         self.populacao = individuos[:self.tam_populacao]
 
     def reproduzir(self):
-        # precisa repetir 7 vezes o processo porque gera 2 filhos a cada reproducao, e precisa de 14
         f=1
         while f <= 13:
-            #preciso de 2 pais
+            # 2 pais
             pos_pai1 = self.selecionar_pai()
             pos_pai2 = self.selecionar_pai()
 
-            #pro filho1 pego x do pai1, y do pai2, z do pai1
+            # filho1 -> x do pai1, y do pai2, z do pai1
             xf1 = self.populacao[pos_pai1][0]
             xf2 = self.populacao[pos_pai2][0]
             yf1 = self.populacao[pos_pai2][1]
@@ -81,7 +73,7 @@ class AlgoritmoGenetico:
             filho1 = [xf1, yf1, fitnessf1]
             filho2 = [xf2, yf2, fitnessf2]
 
-            #antes de add, verifico se tem mutação
+            # verificando se há mutação
             filho1 = self.realizar_mutacao(filho1)
             filho2 = self.realizar_mutacao(filho2)
 
@@ -91,19 +83,10 @@ class AlgoritmoGenetico:
             f += 1
 
     def verificar_melhor_individuo(self):
-        #posicao 19 pq e 20 elementos
-        #self.melhores_individuos.append([self.populacao[19][0], self.populacao[19][1], self.populacao[19][2]])
-        # melhor_individuo = self.populacao[len(self.populacao) - 1]
-        # self.melhores_individuos.append(melhor_individuo)
-
-        # fig, ax = plt.subplots()
-        # ax.plot(melhor_individuo[0], melhor_individuo[1], melhor_individuo[2])
-        # plt.show()
-
         print("O melhor indivíduo: ")
-        print("x = ", self.populacao[19][0])
-        print("y = ", self.populacao[19][1])
-        print("fitness = ", self.populacao[19][2])
+        print("x = ", self.populacao[len(self.populacao) - 1][0])
+        print("y = ", self.populacao[len(self.populacao) - 1][1])
+        print("fitness = ", self.populacao[len(self.populacao) - 1][2])
 
     def iniciar_execucao(self):
         self.criar_populacao()

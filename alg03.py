@@ -24,8 +24,8 @@ class AlgoritmoGenetico:
             self.populacao.append(individuo)
 
     def selecionar_pai(self):
-        pos_cand1 = random.randint(0,49)
-        pos_cand2 = random.randint(0,49)
+        pos_cand1 = random.randint(0,len(self.populacao) - 1)
+        pos_cand2 = random.randint(0,len(self.populacao) - 1)
 
         pos_pai = 0;
         if (self.populacao[pos_cand1][2] > self.populacao[pos_cand2][2]):
@@ -52,7 +52,7 @@ class AlgoritmoGenetico:
         self.populacao = individuos[:self.tam_populacao]
 
     def reproduzir(self):
-        # precisa repetir 7 vezes o processo porque gera 2 filhos a cada reproducao, e precisa de 14
+        # precisa repetir 7 vezes o processo porque gera 2 filhos a cada reprodução, e precisa de 14
         f=1
         while f <= 7:
             # 2 pais
@@ -81,9 +81,9 @@ class AlgoritmoGenetico:
 
     def verificar_melhor_individuo(self):
         print("O melhor indivíduo: ")
-        print("x = ", self.populacao[19][0])
-        print("y = ", self.populacao[19][1])
-        print("fitness = ", self.populacao[19][2])
+        print("x = ", self.populacao[len(self.populacao) - 1][0])
+        print("y = ", self.populacao[len(self.populacao) - 1][1])
+        print("fitness = ", self.populacao[len(self.populacao) - 1][2])
 
     def iniciar_execucao(self):
         self.criar_populacao()
