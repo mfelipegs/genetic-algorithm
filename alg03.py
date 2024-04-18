@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+from colors import GREEN
 
 class AlgoritmoGenetico:
     def __init__(self):
@@ -108,7 +109,7 @@ class AlgoritmoGenetico:
             contador_geracoes += 1
 
         ax = plt.axes(projection="3d")
-        ax.plot3D(self.melhor_individuo_x, self.melhor_individuo_y, self.melhor_individuo_z, "green")
+        ax.plot3D(self.melhor_individuo_x, self.melhor_individuo_y, self.melhor_individuo_z, GREEN)
         ax.set_title("Algoritmo 03")
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
