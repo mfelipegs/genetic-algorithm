@@ -44,7 +44,7 @@ class AlgoritmoGenetico:
         valorx = random.randint(0, 100)
         valory = random.randint(0, 100)
 
-        #se for menor ou igual a 1 significa que terá mutação (1%)
+        # mutação (1%)
         if (valorx <= self.mutacao):
             filho[0] = random.uniform(self.interval_min, self.interval_max)
         if(valory <= self.mutacao):
@@ -57,14 +57,13 @@ class AlgoritmoGenetico:
         self.populacao = individuos[:self.tam_populacao]
 
     def reproduzir(self):
-        # precisa repetir 7 vezes o processo porque gera 2 filhos a cada reproducao, e precisa de 14
         f=1
         while f <= 13:
-            #preciso de 2 pais
+            # 2 pais
             pos_pai1 = self.selecionar_pai()
             pos_pai2 = self.selecionar_pai()
 
-            #pro filho1 pego x do pai1, y do pai2, z do pai1
+            # filho1 -> x do pai1, y do pai2, z do pai1
             xf1 = self.populacao[pos_pai1][0]
             xf2 = self.populacao[pos_pai2][0]
             yf1 = self.populacao[pos_pai2][1]
@@ -75,7 +74,7 @@ class AlgoritmoGenetico:
             filho1 = [xf1, yf1, fitnessf1]
             filho2 = [xf2, yf2, fitnessf2]
 
-            #antes de add, verifico se tem mutação
+            # verificando se há mutação
             filho1 = self.realizar_mutacao(filho1)
             filho2 = self.realizar_mutacao(filho2)
 
