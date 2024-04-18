@@ -12,7 +12,9 @@ class AlgoritmoGenetico:
         self.mutacao=4
         self.interval_min=-500
         self.interval_max=500
-        self.melhores_individuos=[]
+        self.melhor_individuo_x=[]
+        self.melhor_individuo_y=[]
+        self.melhor_individuo_z=[]
 
     def avaliar_individuo(self, x1, x2):
         valor_x1 = x1 * math.sin(math.sqrt(abs(x1)))
@@ -21,8 +23,8 @@ class AlgoritmoGenetico:
 
     def criar_populacao(self):
         for i in range (self.tam_populacao):
-            x = random.randint(self.interval_min, self.interval_max)
-            y = random.randint(self.interval_min, self.interval_max)
+            x = random.uniform(self.interval_min, self.interval_max)
+            y = random.uniform(self.interval_min, self.interval_max)
             fitness = self.avaliar_individuo(x, y)
             individuo=[x, y, fitness]
             self.populacao.append(individuo)
@@ -45,9 +47,9 @@ class AlgoritmoGenetico:
 
         # mutação (1%)
         if (valorx <= self.mutacao):
-            filho[0] = random.randint(self.interval_min, self.interval_max)
+            filho[0] = random.uniform(self.interval_min, self.interval_max)
         if(valory <= self.mutacao):
-            filho[1] = random.randint(self.interval_min, self.interval_max)
+            filho[1] = random.uniform(self.interval_min, self.interval_max)
 
         return filho
 
@@ -83,6 +85,10 @@ class AlgoritmoGenetico:
             f += 1
 
     def verificar_melhor_individuo(self):
+        self.melhor_individuo_x.append(self.populacao[len(self.populacao) - 1][0])
+        self.melhor_individuo_y.append(self.populacao[len(self.populacao) - 1][1])
+        self.melhor_individuo_z.append(self.populacao[len(self.populacao) - 1][2])
+
         print("O melhor indivíduo: ")
         print("x = ", self.populacao[len(self.populacao) - 1][0])
         print("y = ", self.populacao[len(self.populacao) - 1][1])
@@ -101,6 +107,14 @@ class AlgoritmoGenetico:
             self.realizar_descarte(self.populacao)
             self.verificar_melhor_individuo()
             contador_geracoes += 1
+
+        ax = plt.axes(projection="3d")
+        ax.plot3D(self.melhor_individuo_x, self.melhor_individuo_y, self.melhor_individuo_z, "green")
+        ax.set_title("Algoritmo 01")
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Fitness")
+        plt.show()
 
 ag = AlgoritmoGenetico()
 ag.iniciar_execucao()

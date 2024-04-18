@@ -12,7 +12,6 @@ class AlgoritmoGenetico:
         self.mutacao=4
         self.interval_min=-5
         self.interval_max=5
-        self.melhores_individuos=[]
         self.melhor_individuo_x=[]
         self.melhor_individuo_y=[]
         self.melhor_individuo_z=[]

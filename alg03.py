@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 
 class AlgoritmoGenetico:
     def __init__(self):
@@ -10,6 +11,9 @@ class AlgoritmoGenetico:
         self.mutacao=4
         self.interval_min=-2
         self.interval_max=2
+        self.melhor_individuo_x=[]
+        self.melhor_individuo_y=[]
+        self.melhor_individuo_z=[]
 
     def avaliar_individuo(self, x, y):
         resultado = x ** -(x**2 + y**2)
@@ -80,6 +84,10 @@ class AlgoritmoGenetico:
             f += 1
 
     def verificar_melhor_individuo(self):
+        self.melhor_individuo_x.append(self.populacao[len(self.populacao) - 1][0])
+        self.melhor_individuo_y.append(self.populacao[len(self.populacao) - 1][1])
+        self.melhor_individuo_z.append(self.populacao[len(self.populacao) - 1][2])
+
         print("O melhor indivíduo: ")
         print("x = ", self.populacao[len(self.populacao) - 1][0])
         print("y = ", self.populacao[len(self.populacao) - 1][1])
@@ -98,6 +106,14 @@ class AlgoritmoGenetico:
             self.realizar_descarte(self.populacao)
             self.verificar_melhor_individuo()
             contador_geracoes += 1
+
+        ax = plt.axes(projection="3d")
+        ax.plot3D(self.melhor_individuo_x, self.melhor_individuo_y, self.melhor_individuo_z, "green")
+        ax.set_title("Algoritmo 03")
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Fitness")
+        plt.show()
 
 ag = AlgoritmoGenetico()
 ag.iniciar_execucao()
